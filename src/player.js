@@ -11,6 +11,8 @@ const playSong = (song, songs) => {
   }
 
   // On donne l'url au player et démarre la lecture
+  audioPlayer.src = currentSong.audio_url
+  audioPlayer.play();
   
 }
 

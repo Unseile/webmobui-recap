@@ -1,7 +1,9 @@
-import { getSongs } from '../api.js'
+import { playSong } from '../player.js'
+import { toggleFavorite, getFavorite } from '../local-storage.js'
 
-customElements.define("page-artist-songs", class extends HTMLElement {
+export class PageSong extends HTMLElement {
   static observedAttributes = []
+  songs = []
 
   connectedCallback() {
     this.render()
@@ -12,13 +14,13 @@ customElements.define("page-artist-songs", class extends HTMLElement {
   }
 
   render() {
-    const artistId = this.getAttribute('artist-id')
-
-    getSongs(artistId)
+    this.getSongsData()
     .then((songs) => {
+      this.songs = songs;
+
       this.innerHTML = `
         <h4>
-          Artistes > ${songs[0].artist.name}
+          ${this.getTitle()}
         </h4>
 
         <div class="list">
@@ -29,9 +31,22 @@ customElements.define("page-artist-songs", class extends HTMLElement {
       songs.forEach((song) => {
         const songItem = document.createElement('song-item')
         songItem.setAttribute('title', song.title)
-        songItem.addEventListener()
+        songItem.addEventListener('play-song', () => playSong(song, songs))
+        songItem.addEventListener('favoritesong', () => {
+          toggleFavorite(song);
+          songItem.setAttribute('favorite', getFavorite(song.id) ? 'true' : 'false')
+        })
         songList.append(songItem)
       })
     })
   }
-})
+
+  //ces fonctions ne sont pas nécessaires, on pourrait ne pas les avoir
+  async getSongsData() {
+    return [];
+  }
+
+  getTitle() {
+    return "title";
+  }
+}

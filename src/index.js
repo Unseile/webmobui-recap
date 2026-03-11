@@ -7,7 +7,9 @@ import './elements/spot-footer.js'
 import './pages/page-artists.js'
 import './pages/page-home.js'
 import './pages/page-player.js'
-import './pages/page-songs.js'
+import './pages/page-artist-songs.js'
+import './pages/page-search-songs.js'
+import './pages/page-favorite-songs.js'
 
 const router = () => {
   const main = document.querySelector('main')
@@ -16,15 +18,41 @@ const router = () => {
   if (hashs[0] == '#home')
     main.innerHTML = '<page-home />'
 
-  // autres routes
+  else if (hashs[0] == '#player')
+    main.innerHTML = '<page-player />'
+
+  else if (hashs[0] == '#artists' && !hashs[1])
+    main.innerHTML = '<page-artists />'
+
+  else if (hashs[0] == '#artists')
+    main.innerHTML = `<page-artist-songs artist-id="${hashs[1]}" />`
+
+  else if (hashs[0] === '#search')
+    main.innerHTML = `<page-search-songs query="${decodeURIComponent(hashs[1])}" />`
+
+  else if (hashs[0] === '#favorites')
+    main.innerHTML = '<page-favorite-songs />'
 }
 
 const setupOfflineMode = () => {
+  //1. L'élément body a une classe qui s'appelle offline qui change le CSS
+  const body = document.querySelector('body');
+  const searchButton = document.querySelector('#search-trigger');
 
+  window.addEventListener('offline', () => {
+    body.classList.add('offline');
+    searchButton.setAttribute('disabled', "");
+    searchInput.classList.remove('active')
+  })
+
+  window.addEventListener('online', () => {
+    body.classList.remove('offline');
+    searchButton.removeAttribute('disabled')
+  })
 }
 
 const connectServiceWorkers = () => {
-  
+  navigator.serviceWorker.register('/stale-while-revalidating.js')
 }
 
 window.addEventListener('hashchange', router)
