@@ -108,7 +108,11 @@ customElements.define("page-player", class extends HTMLElement {
     this.progressBar.addEventListener('change', () => {
       audioPlayer.currentTime = this.progressBar.value;
     })
-
+    this.progressBar.addEventListener('mousedown', () => this.updatingTime = false)
+    this.progressBar.addEventListener('input', (e) => {
+      if (!currentSong) return
+      this.timeCurrent.innerText = formatTimestamp(this.progressBar.value);
+    })
   }
 
   // Mise à jour des différentes infos de la plage player d'après la chanson en cours
@@ -130,6 +134,7 @@ customElements.define("page-player", class extends HTMLElement {
 
   // Mise à jour de l'affichage du temps écoulé
   updateCurrentTime() {
+    if (this.updatingTime);
     this.timeCurrent.textContent = formatTimestamp(audioPlayer.currentTime)
     this.progressBar.value = audioPlayer.currentTime
   }
