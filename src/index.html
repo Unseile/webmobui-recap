@@ -7,9 +7,9 @@
 
   <!-- Bloquer le viewport - ici, c'est une app! Pas de zoom. -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-  
+
   <!-- Fichier manifest -->
-   <link rel="manifest" href=".public/manifest.webmanifest" />
+  <link rel="manifest" href=".public/manifest.webmanifest" />
 
   <!-- Fonts google pour les icônes et la police par défaut -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons" />
@@ -21,6 +21,17 @@
   <!-- Javascript principal -->
   <!-- ...à quoi sert le defer ? :) -->
   <script src="index.js" type="module" defer></script>
+  
+  <!-- Notifs OneSignal-->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function (OneSignal) {
+      await OneSignal.init({
+        appId: "f4003fa5-d436-45b2-ae40-f7b6da49ce1d",
+      });
+    });
+  </script>
 </head>
 
 <body>
