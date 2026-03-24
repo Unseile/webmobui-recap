@@ -39,6 +39,9 @@ export class PageSong extends HTMLElement {
         songList.append(songItem)
       })
     })
+
+
+    
   }
 
   //ces fonctions ne sont pas nécessaires, on pourrait ne pas les avoir
